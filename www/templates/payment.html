@@ -1,8 +1,10 @@
 <ion-view title="Payment" id="page6">
-  <ion-content padding="true" class="has-header">
-    <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
-      <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
-    </div>
-    <a ui-sref="menu.home" id="payment-button4" class="button button-stable  button-block">Back</a>
+  <ion-content padding="true" class="has-header" ng-init="scanBarcode()">
+	  <button class="button button-stable  button-block"" ng-click="scanBarcode()">Scan Again</button>
+	  <div class="list">
+	      <div class="item">{{barcode}}</div>
+	      <div class="item">{{format}}</div>
+	  </div>
+    <a ui-sref="menu.home" id="payment-button4" class="button button-stable  button-block">Pay</a>
   </ion-content>
 </ion-view>

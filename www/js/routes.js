@@ -58,16 +58,36 @@ angular.module('app.routes', [])
     controller: 'signupCtrl'
   })
 
-  .state('payment', {
+  .state('menu.payment', {
     url: '/page6',
-    templateUrl: 'templates/payment.html',
-    controller: 'paymentCtrl'
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/payment.html',
+        controller: 'paymentCtrl'
+      }
+    }
   })
 
   .state('confirmPayment', {
     url: '/page7',
     templateUrl: 'templates/confirmPayment.html',
     controller: 'confirmPaymentCtrl'
+  })
+
+  .state('menu.transfer', {
+    url: '/page8',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/transfer.html',
+        controller: 'transferCtrl'
+      }
+    }
+  })
+
+  .state('qRCode', {
+    url: '/page9',
+    templateUrl: 'templates/qRCode.html',
+    controller: 'qRCodeCtrl'
   })
 
   var privateKey = window.localStorage.getItem("privateKey");
@@ -77,7 +97,6 @@ angular.module('app.routes', [])
   else {
     $urlRouterProvider.otherwise('/page5');
   }
-
 
   
 

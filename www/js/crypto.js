@@ -46,6 +46,26 @@ function verifyData(publicKey, signature, data) {
   )
 }
 
+function exportKey(key) {
+  return window.crypto.subtle.exportKey(
+      "jwk", //can be "jwk" (public or private), "spki" (public only), or "pkcs8" (private only)
+      key //can be a publicKey or privateKey, as long as extractable was true
+  )
+}
+
+function importKey(jwk, type) {
+  return window.crypto.subtle.importKey(
+      "jwk", //can be "jwk" (public or private), "spki" (public only), or "pkcs8" (private only)
+      jwk,
+      {   //these are the algorithm options
+          name: "RSASSA-PKCS1-v1_5",
+          hash: {name: "SHA-256"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+      },
+      false, //whether the key is extractable (i.e. can be used in exportKey)
+      [type] //"verify" for public key import, "sign" for private key imports
+  )
+}
+
 
 function str2ab(str)
 {

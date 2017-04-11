@@ -3,7 +3,7 @@ var mint1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxf17kB0kRznB/NH9/bokZ63
 
 
 angular.module('app.controllers', [])
-  
+
 .controller('homeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -11,7 +11,7 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+
 .controller('paymentRecordCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -19,7 +19,7 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+
 .controller('settingCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -27,7 +27,7 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+
 .controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -35,7 +35,7 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+
 .controller('loginCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -43,7 +43,7 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+
 .controller('signupCtrl', ['$scope', '$stateParams' , '$http',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -57,38 +57,36 @@ function ($scope, $stateParams, $http) {
     var publicKey = await getPublicKey(rsakey);
     publicKey = spkiToPEM(publicKey);
 
-    var data = sortObject({
+    var data = {
        "faddr": publicKey,
         "taddr": mint1,
         "type":"RU",
         "device_id":"xd",
-      });
+    };
 
-    var sign = await signData(rsakey.privateKey, str2ab(JSON.stringify(data)));
-    console.log(buf2hex(sign));
-    var verify = await verifyData(rsakey.publicKey, sign, str2ab(JSON.stringify(data)));
-    console.log(verify);
+    var sortedData = sortByKeys(_.clone(data));
 
-    data["sign"] = buf2hex(sign);
+    var sign = await signData(rsakey.privateKey, str2ab(JSON.stringify(sortedData)));
+    sortedData["sign"] = buf2hex(sign);
 
-    console.log(sortObject(data));
-    
+    console.log(sortedData);
+
     var req = {
      method: 'POST',
      url: url + "/api",
      headers: {
        'Content-Type': "application/json"
      },
-     data: data
+     data: sortedData
     }
-    
+
 
     $http(req).then(function(){}, function(){});
-                                                
+
   }
 
 }])
-   
+
 .controller('paymentCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -96,7 +94,7 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+
 .controller('confirmPaymentCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName

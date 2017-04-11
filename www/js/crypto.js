@@ -46,13 +46,20 @@ function verifyData(publicKey, signature, data) {
   )
 }
 
-function str2ab(str) {
-  var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
-  var bufView = new Uint16Array(buf);
-  for (var i=0, strLen=str.length; i<strLen; i++) {
-    bufView[i] = str.charCodeAt(i);
+
+function str2ab(str)
+{
+  var bytes = new Uint8Array(str.length);
+  for (var iii = 0; iii < str.length; iii++)
+  {
+    bytes[iii] = str.charCodeAt(iii);
   }
-  return buf;
+
+  return bytes;
+}
+
+function ab2str(buf) {
+  return String.fromCharCode.apply(null, new Uint16Array(buf));
 }
 
 function buf2hex(buffer) { // buffer is an ArrayBuffer
@@ -89,20 +96,11 @@ function formatAsPem(str) {
     return finalString;
 }
 
-function sortObject(o) {
-    var sorted = {},
-    key, a = [];
+const sortByKeys = object => {
+  const keys = Object.keys(object)
+  const sortedKeys = _.sortBy(keys)
 
-    for (key in o) {
-        if (o.hasOwnProperty(key)) {
-                a.push(key);
-        }
-    }
-
-    a.sort();
-
-    for (key = 0; key < a.length; key++) {
-        sorted[a[key]] = o[a[key]];
-    }
-    return sorted;
-}
+  return _.fromPairs(
+    _.map(sortedKeys, key => [key, object[key]])
+)
+};

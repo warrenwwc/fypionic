@@ -100,7 +100,7 @@ function ($scope, $stateParams, $http, $state) {
 function ($scope, $stateParams, $cordovaBarcodeScanner) {
 
   $scope.scanBarcode = function () {
-      $cordovaBarcodeScanner.scan().then(function (result) {                   
+      $cordovaBarcodeScanner.scan().then(function (result) {
           $scope.barcode = result.text;
           $scope.format = result.format;
       }, function (error) {
@@ -138,7 +138,7 @@ function ($scope, $stateParams, $rootScope) {
 function ($scope, $stateParams, $rootScope) {
   $scope.qrcodeString = localStorage.getItem("publicKeyPEM") + "," + $rootScope.amount;
   $scope.size = 250;
-  $scope.correctionLevel = '';
+  $scope.correctionLevel = 'H';
   $scope.typeNumber = 0;
   $scope.image = true;
 

@@ -9,6 +9,25 @@ angular.module('app.controllers', ['ionic', 'ngCordova', 'ja.qr'])
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
+  $scope.fcm = function() {
+      FCMPlugin.onNotification(
+        function(data){
+            if(data.wasTapped){
+                //Notification was received on device tray and tapped by the user.
+                alert( JSON.stringify(data) );
+            }else{
+                //Notification was received in foreground. Maybe the user needs to be notified.
+                alert( JSON.stringify(data) );
+            }
+        },
+        function(msg){
+            alert('onNotification callback successfully registered: ' + msg);
+        },
+        function(err){
+            alert('Error registering onNotification callback: ' + err);
+        }
+    );
+  }
 
 }])
 
@@ -61,7 +80,7 @@ function ($scope, $stateParams, $http, $state) {
        "faddr": publicKey,
         "taddr": mint1,
         "type":"RU",
-        "device_id":"xd",
+        "device_id":FCMPlugin.getToken(),
     };
 
     var sortedData = sortByKeys(_.clone(data));

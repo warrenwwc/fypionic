@@ -9,33 +9,20 @@ angular.module('app.controllers', ['ionic', 'ngCordova', 'ja.qr'])
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
-  $scope.fcm = function() {
-      FCMPlugin.onNotification(
-        function(data){
-            if(data.wasTapped){
-                //Notification was received on device tray and tapped by the user.
-                alert( JSON.stringify(data) );
-            }else{
-                //Notification was received in foreground. Maybe the user needs to be notified.
-                alert( JSON.stringify(data) );
-            }
-        },
-        function(msg){
-            alert('onNotification callback successfully registered: ' + msg);
-        },
-        function(err){
-            alert('Error registering onNotification callback: ' + err);
-        }
-    );
-  }
-
 }])
 
-.controller('paymentRecordCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('paymentRecordCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $http) {
+  $scope.recordList = [];
 
+  $scope.record = async function() {
+    req = await req(await recordData(), "record");
+    var response = await $http(req);
+    $scope.recordList = response.data;
+    console.log($scope.recordList);
+  }
 
 }])
 
@@ -125,6 +112,11 @@ function ($scope, $stateParams, $cordovaBarcodeScanner) {
       }, function (error) {
           console.warn("An error happened -> " + error);
       });
+
+      $scope.Pay = function() {
+        strArr = $scope.barcode.split(",");
+
+      }
   };
 
 }])
